@@ -45,6 +45,8 @@ public class SpamEnemies : MonoBehaviour
         }
         }
     } */
+    /////////////////////////////////////////////////////////*********************************
+    /* 
     private CharacterController characterController;
     private List<GameObject> bots;
     //private GameObject[] bots;
@@ -112,10 +114,9 @@ public class SpamEnemies : MonoBehaviour
 
         }
     }
-
-    // Update is called once per frame
-   /*  void Update()
-    {
-        
-    } */
+  
+ */
+ private void Start() {
+        Debug.Log("HelloWorld");   
+ }
 }
