@@ -39,7 +39,13 @@ public class LavaDamage : MonoBehaviour
                }
           }
      }
+     /* private void OnCollisionEnter(Collision other) 
+     {
+          if(other.CompareTag("sword"))
+          {
 
+          }     
+     } */
      private void OnTriggerExit(Collider otherCollider)
      {
           if (otherCollider.CompareTag("Player"))
