@@ -312,6 +312,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 22feda2cf16fff344b42769b7e6e0608, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  initialPosition: {x: 0, y: 0, z: 0}
 --- !u!1101 &-4972281730342649857
 AnimatorStateTransition:
   m_ObjectHideFlags: 1
