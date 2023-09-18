@@ -7,9 +7,14 @@ public class TeleportManager : MonoBehaviour
 {
      [Header("Components")]
      [SerializeField] private List<string> sceneNames;
+     public static TeleportManager instance;
 
-     public void SwitchToScene(int index)
+     private void Awake()
      {
-          SceneManager.LoadScene(sceneNames[index]);
+          instance = this;
+     }
+     public void SwitchToScene(string sceneName)
+     {
+          SceneManager.LoadScene(sceneName);
      }
 }
