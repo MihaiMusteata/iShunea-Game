@@ -116,7 +116,7 @@ public class SpamEnemies : MonoBehaviour
     }
   
  */
- private void Start() {
+ /* private void Start() {
         Debug.Log("HelloWorld");   
- }
+ } */
 }
