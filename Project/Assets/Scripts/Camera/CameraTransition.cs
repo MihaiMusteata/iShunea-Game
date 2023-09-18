@@ -49,7 +49,7 @@ public class CameraTransition : MonoBehaviour
 
                mainCamera.transform.position = Vector3.Lerp(
                    initialCameraPosition, targetPosition.position, t);
-               1
+               
                if (t >= 1.0f)
                {
                     isTransitioning = false;
