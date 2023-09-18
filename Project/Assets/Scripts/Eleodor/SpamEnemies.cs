@@ -46,7 +46,7 @@ public class SpamEnemies : MonoBehaviour
         }
     } */
     /////////////////////////////////////////////////////////*********************************
-    /* 
+
     private CharacterController characterController;
     private List<GameObject> bots;
     //private GameObject[] bots;
@@ -115,7 +115,7 @@ public class SpamEnemies : MonoBehaviour
         }
     }
   
- */
+ 
  /* private void Start() {
         Debug.Log("HelloWorld");   
  } */

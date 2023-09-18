@@ -5,12 +5,15 @@ using UnityEngine.AI;
 
 public class IdleBehaviour : StateMachineBehaviour
 {
+    /* public IdleBehaviour(){} */
     float timer;
     Transform player;
     Transform initialTransform;
    // NavMeshAgent agent;
     NavMeshAgent agent;
     float chaseRange = 5;
+    public Vector3 initialPosition;
+   
     // OnStateEnter is called when a transition starts and the state machine starts to evaluate this state
     override public void OnStateEnter(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
     {
@@ -18,8 +21,8 @@ public class IdleBehaviour : StateMachineBehaviour
         agent = animator.GetComponent<NavMeshAgent>();
         timer = 0;
         player = GameObject.FindGameObjectWithTag("Player").transform;
-        initialTransform = GameObject.FindGameObjectWithTag("Points").transform;
-        //initialPosition = agent.transform.position;
+        //initialTransform = GameObject.FindGameObjectWithTag("Points").transform;
+        initialPosition = agent.transform.position;
     }
 
     // OnStateUpdate is called on each Update frame between OnStateEnter and OnStateExit callbacks
@@ -54,8 +57,8 @@ public class IdleBehaviour : StateMachineBehaviour
     }
 
     // OnStateExit is called when a transition ends and the state machine finishes evaluating this state
-    /* override public void OnStateExit(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
+  /*    override public void OnStateExit(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
     {
-
-    } */
+        initialPosition = agent.transform.position;
+    }  */
 }
