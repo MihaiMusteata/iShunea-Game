@@ -10,8 +10,8 @@ public class SkeletonSound : MonoBehaviour
     void footStep()
     {
         int randomIndex = Random.Range(0, footStepSounds.Length); // corectat de la footstepSounds.Lenght la footstepSounds.Length
-        AudioManager.instance.source.volume = footStepVolume;
-        AudioManager.instance.source.PlayOneShot(footStepSounds[randomIndex]);
+        //AudioManager.instance.source.volume = footStepVolume;
+        //AudioManager.instance.source.PlayOneShot(footStepSounds[randomIndex]);
     }
     
 }
