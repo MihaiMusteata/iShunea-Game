@@ -37,7 +37,7 @@ public class AttackBehaviour : StateMachineBehaviour
         
     }
  
-
+    
  /* private void StartCooldown()
     {
         // Așteaptă pentru perioada de cooldown
