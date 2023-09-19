@@ -9,6 +9,7 @@ TagManager:
   - Points
   - CinemachineTarget
   - sword
+  - PlayerSword
   layers:
   - Default
   - TransparentFX

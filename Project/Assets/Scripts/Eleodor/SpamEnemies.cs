@@ -51,7 +51,7 @@ public class SpamEnemies : MonoBehaviour
     private List<GameObject> bots;
     //private GameObject[] bots;
     public int damage = 10; // Dauna cauzată de inamic
-    private bool canDamage = true;
+    //private bool canDamage = true;
     private void Awake() {
         bots = new List<GameObject>(GameObject.FindGameObjectsWithTag("bot"));
         foreach (GameObject bot in bots)
@@ -116,8 +116,8 @@ public class SpamEnemies : MonoBehaviour
 
             if (collider.CompareTag("sword"))
             {
-                Debug.Log("Attack!!!!");
-                Debug.Log("OnCollitsionEneter");
+               /*  Debug.Log("Attack!!!!");
+                Debug.Log("OnCollitsionEneter"); */
         // Verificăm dacă inamicul a lovit jucătorul (poate folosi un tag sau strat pentru jucător)
        
                 // Obținem componenta "PlayerHealth" a jucătorului
@@ -126,12 +126,12 @@ public class SpamEnemies : MonoBehaviour
             // Verificăm dacă am găsit componenta "PlayerHealth"
             if (PlayerHealthManager.instance != null && animator.GetBool("IsAttacking01"))
             {
-                Debug.Log("Nu este NULL");
+                /* Debug.Log("Nu este NULL"); */
                 // Apelăm metoda "TakeDamage" a jucătorului pentru a-i cauza daune
                 //playerHealth.TakeDamage(damage);
                 PlayerHealthManager.instance.TakeDamage(damage);
                 // Setăm canDamage pe false pentru a evita repetarea daunelor în aceeași coliziune
-                canDamage = false;
+                //canDamage = false;
             }
             
             }
