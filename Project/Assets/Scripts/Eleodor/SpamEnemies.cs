@@ -46,7 +46,7 @@ public class SpamEnemies : MonoBehaviour
         }
     } */
     /////////////////////////////////////////////////////////*********************************
-    /* 
+
     private CharacterController characterController;
     private List<GameObject> bots;
     //private GameObject[] bots;
@@ -80,7 +80,7 @@ public class SpamEnemies : MonoBehaviour
         {
             if (collider.CompareTag("SpamPlane"))
             {
-                Debug.Log("SpamPlane");
+//                Debug.Log("SpamPlane");
 
                 // Găsim toate obiectele cu eticheta "Bot" din scenă
                 //GameObject[] bots = GameObject.FindGameObjectsWithTag("bot");
@@ -103,7 +103,7 @@ public class SpamEnemies : MonoBehaviour
                         nearestBot = bot;
                     }
                 }
-                Debug.Log("Boti: "+nr);
+               /// Debug.Log("Boti: "+nr);
                 
                 // Verificăm dacă am găsit cel mai apropiat bot și îl activăm
                 if (nearestBot != null)
@@ -115,8 +115,9 @@ public class SpamEnemies : MonoBehaviour
         }
     }
   
- */
- private void Start() {
+ 
+ /* private void Start() {
         Debug.Log("HelloWorld");   
- }
+ } */
+ } */
 }

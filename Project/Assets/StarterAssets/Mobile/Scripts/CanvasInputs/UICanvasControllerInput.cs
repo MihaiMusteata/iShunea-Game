@@ -1,5 +1,6 @@
 using UnityEngine;
 //using ThirdPersonController;
+using System.Collections;
 
 namespace StarterAssets
 {
@@ -35,10 +36,10 @@ namespace StarterAssets
           {
                /* SRC.clip = sfx;
                SRC.Play(); */
-               int AttackMode = Random.Range(1, 2);
-               _animator.SetTrigger("Attack0" + AttackMode);
-
+               //int AttackMode = Random.Range(1, 2);
+               _animator.SetTrigger("Attack01"/*  + AttackMode */);
           }
+       
      }
 
 }

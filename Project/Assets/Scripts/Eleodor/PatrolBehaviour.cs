@@ -72,11 +72,20 @@ public class PatrolBehaviour : StateMachineBehaviour
     Transform initialTransform;
     Transform player;
     float chaseRange = 5;
-    Vector3 initialPosition;
+    
 
     // OnStateEnter is called when a transition starts and the state machine starts to evaluate this state
     override public void OnStateEnter(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
     {
+        //IdleBehaviour InitialPoz;
+       /*  initialTransform = new GameObject().transform;
+        IdleBehaviour idleBehavior = new IdleBehaviour();
+        if (initialTransform != null)
+        {
+            // Accesăm membrul initialPosition din instanța IdleBehaviour și îl asignăm la newTransform.position
+            initialTransform.position = idleBehavior.initialPosition;
+        } */
+        //newTransform.position = InitialPoz.initialPosition;
         initialTransform = GameObject.FindGameObjectWithTag("Points").transform;
         //timer = 0;
         //agent.SetDestination(initialTransform.position);
@@ -133,3 +142,5 @@ public class PatrolBehaviour : StateMachineBehaviour
         //agent.ResetPath();
     }
 }
+
+
