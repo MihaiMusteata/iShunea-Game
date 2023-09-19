@@ -1,59 +1,86 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class CameraTransition : MonoBehaviour
 {
-     [SerializeField] private Transform targetPosition;
-     [SerializeField] private float transitionDuration = 2.0f; 
+     [SerializeField] private Camera mainCamera;
+     [SerializeField] private GameObject camPos;
+     public Quaternion mainCameraTarget;
+     public Vector3 camPosTarget;
+     public float smoothSpeed = 5f;
 
-     private Camera mainCamera;
-     private Vector3 initialCameraPosition;
-     private float transitionStartTime;
+     private Quaternion mainCameraInitialRotation;
+     private Vector3 camPosInitialOffset;
      private bool isTransitioning = false;
+     private bool reverse = false;
+     private float transitionStartTime;
 
      private void Start()
      {
-          mainCamera = Camera.main;
-          initialCameraPosition = mainCamera.transform.position;
-     }
-
-     private void OnTriggerEnter(Collider other)
-     {
-          if (other.CompareTag("Player") && !isTransitioning)
-          {
-               StartTransition();
-          }
-     }
-
-     private void OnTriggerExit(Collider other)
-     {
-          if (other.CompareTag("Player") && !isTransitioning)
-          {
-               StartTransition();
-          }
-     }
-
-     private void StartTransition()
-     {
-          transitionStartTime = Time.time;
-          isTransitioning = true;
+          mainCameraInitialRotation = mainCamera.transform.rotation;
+          camPosInitialOffset = camPos.transform.position;
      }
 
      private void Update()
      {
           if (isTransitioning)
           {
-               float t = (Time.time - transitionStartTime) / transitionDuration;
+               float t = (Time.time - transitionStartTime) / smoothSpeed;
                t = Mathf.Clamp01(t);
+               if (!reverse)
+               {
+                    mainCamera.transform.rotation = Quaternion.Slerp(mainCameraInitialRotation, mainCameraTarget, t);
+                    camPos.transform.position = Vector3.Lerp(camPosInitialOffset, camPosTarget, t);
+               }
+               else
+               {
+                    mainCamera.transform.rotation = Quaternion.Slerp(mainCameraTarget, mainCameraInitialRotation, t);
+                    camPos.transform.position = Vector3.Lerp(camPosTarget, camPosInitialOffset, t);
 
-               mainCamera.transform.position = Vector3.Lerp(
-                   initialCameraPosition, targetPosition.position, t);
-               
+               }
+
                if (t >= 1.0f)
                {
                     isTransitioning = false;
                }
+          }
+     }
+
+     private void StartTransition()
+     {
+          if (!isTransitioning)
+          {
+               isTransitioning = true;
+               transitionStartTime = Time.time;
+               reverse = false;
+          }
+     }
+
+     private void ReversTransition()
+     {
+          if (!isTransitioning)
+          {
+               isTransitioning = true;
+               transitionStartTime = Time.time;
+               reverse = true;
+          }
+     }
+
+
+     private void OnTriggerEnter(Collider other)
+     {
+          if (other.CompareTag("Player"))
+          {
+               isTransitioning = false;
+               StartTransition();
+          }
+     }
+
+     private void OnTriggerExit(Collider other)
+     {
+          if (other.CompareTag("Player"))
+          {
+               isTransitioning = false;
+               ReversTransition();
           }
      }
 }
