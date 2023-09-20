@@ -1,433 +1,233 @@
-/* 
 using UnityEngine;
-using UnityEngine.AI;
-
-public class EnemyAiTutorial : MonoBehaviour
-{
-    public NavMeshAgent agent;
-
-    public Transform player;
-
-    public LayerMask whatIsGround, whatIsPlayer;
-
-    public float health;
-
-    //Patroling
-    public Vector3 walkPoint;
-    bool walkPointSet;
-    public float walkPointRange;
-
-    //Attacking
-    public float timeBetweenAttacks;
-    bool alreadyAttacked;
-    public GameObject projectile;
-    private Animator animator;
-    //States
-    public float sightRange, attackRange;
-    public bool playerInSightRange, playerInAttackRange;
-
-    private void Awake()
-    {
-        //player = GameObject.Find("PlayerObj").transform;
-        agent = GetComponent<NavMeshAgent>();
-    }
-
-    private void Update()
-    {
-        //Check for sight and attack range
-        playerInSightRange = Physics.CheckSphere(transform.position, sightRange, whatIsPlayer);
-        playerInAttackRange = Physics.CheckSphere(transform.position, attackRange, whatIsPlayer);
-
-        if (!playerInSightRange && !playerInAttackRange) Patroling();
-        if (playerInSightRange && !playerInAttackRange) ChasePlayer();
-        if (playerInAttackRange && playerInSightRange) AttackPlayer();
-    }
-
-    private void Patroling()
-    {
-        if (!walkPointSet) SearchWalkPoint();
-
-        if (walkPointSet)
-            agent.SetDestination(walkPoint);
-
-        Vector3 distanceToWalkPoint = transform.position - walkPoint;
-
-        //Walkpoint reached
-        if (distanceToWalkPoint.magnitude < 1f)
-            walkPointSet = false;
-    }
-    private void SearchWalkPoint()
-    {
-        //Calculate random point in range
-        float randomZ = Random.Range(-walkPointRange, walkPointRange);
-        float randomX = Random.Range(-walkPointRange, walkPointRange);
-
-        walkPoint = new Vector3(transform.position.x + randomX, transform.position.y, transform.position.z + randomZ);
-        animator.SetBool("IsWalking",true);
-        if (Physics.Raycast(walkPoint, -transform.up, 2f, whatIsGround))
-            walkPointSet = true;
-    }
-
-    private void ChasePlayer()
-    {
-        agent.SetDestination(player.position);
-    }
-
-    private void AttackPlayer()
-    {
-        //Make sure enemy doesn't move
-        agent.SetDestination(transform.position);
-
-        transform.LookAt(player);
-
-        if (!alreadyAttacked)
-        {
-            ///Attack code here
-            Rigidbody rb = Instantiate(projectile, transform.position, Quaternion.identity).GetComponent<Rigidbody>();
-            rb.AddForce(transform.forward * 32f, ForceMode.Impulse);
-            rb.AddForce(transform.up * 8f, ForceMode.Impulse);
-            ///End of attack code
-
-            alreadyAttacked = true;
-            Invoke(nameof(ResetAttack), timeBetweenAttacks);
-        }
-    }
-    private void ResetAttack()
-    {
-        alreadyAttacked = false;
-    }
-
-    public void TakeDamage(int damage)
-    {
-        health -= damage;
-
-        if (health <= 0) Invoke(nameof(DestroyEnemy), 0.5f);
-    }
-    private void DestroyEnemy()
-    {
-        Destroy(gameObject);
-    }
-
-    private void OnDrawGizmosSelected()
-    {
-        Gizmos.color = Color.red;
-        Gizmos.DrawWireSphere(transform.position, attackRange);
-        Gizmos.color = Color.yellow;
-        Gizmos.DrawWireSphere(transform.position, sightRange);
-    }
-}
- */
-
-/* using UnityEngine;
-using UnityEngine.AI;
-
-public class AIControler : MonoBehaviour
-{
-    public Transform player;
-    private NavMeshAgent navMeshAgent;
-    private Animator animator;
-    public float attackRange = 2.0f;
-    public float chaseRange = 10.0f;
-
-    private void Start()
-    {
-        navMeshAgent = GetComponent<NavMeshAgent>();
-        animator = GetComponent<Animator>();
-        
-        if (navMeshAgent == null || animator == null)
-        {
-            Debug.LogError("Componentele NavMeshAgent sau Animator nu au fost găsite.");
-        }
-    }
-
-    private void Update()
-    {
-        if (player != null)
-        {
-            float distanceToPlayer = Vector3.Distance(transform.position, player.position);
-
-            if (distanceToPlayer <= attackRange)
-            {
-                // Atacă jucătorul
-                animator.SetBool("IsAttacking0" + Random.Range(1, 3), distanceToPlayer <= attackRange);
-            }
-            else if (distanceToPlayer <= chaseRange)
-            {
-                // Urmărește jucătorul
-                navMeshAgent.SetDestination(player.position);
-                animator.SetBool("IsWalking", true);
-            }
-            else
-            {
-                // Stă pe loc dacă jucătorul este prea departe
-                navMeshAgent.SetDestination(transform.position);
-                animator.SetBool("IsWalking", false);
-            }
-        }
-        else
-        {
-            Debug.LogError("Jucătorul nu a fost atașat la bot sau este nul.");
-        }
-    }
-}
- */
-
-
-
-
-
-
-
-
-
-
-/* 
- using UnityEngine;
-using UnityEngine.AI;
-
-public class AIControler : MonoBehaviour
-{
-    public Transform player; 
-    private NavMeshAgent navMeshAgent;
-    private Animator animator;
-    public float attackRange = 0.1f;
-    public float chaseRange = 0.2f;
-    public float returnRange = 1f;
-    private Vector3 initialPosition;
-    private bool isReturning = false;
-
-    private void Start()
-    {
-        animator = GetComponent<Animator>();
-        navMeshAgent = GetComponent<NavMeshAgent>();
-        if (animator == null || navMeshAgent == null)
-        {
-            Debug.LogError("Componenta NavMeshAgent nu a fost găsită pe acest obiect.");
-        }
-       
-        initialPosition = transform.position;
-    }
-
-    private void Update()
-    {
-        if (player != null)
-        {
-            float distanceToPlayer = Vector3.Distance(transform.position, player.position);
-
-            if (distanceToPlayer > chaseRange)
-            {
-                animator.SetBool("IsWalking", true);
-                animator.SetBool("IsRunning", false);
-                animator.SetBool("IsAttacking01", false);
-
-                // Verificați dacă botul este deja în procesul de întoarcere
-                if (!isReturning)
-                {
-                    // Dacă depășește distanța de returnare, începe să se întoarcă
-                    if (Vector3.Distance(transform.position, initialPosition) > returnRange)
-                    {
-                        isReturning = true;
-                        animator.SetBool("IsWalking", true);
-                        navMeshAgent.SetDestination(initialPosition);
-                    }
-                    else
-                    {
-                            isReturning = false;
-                            // Botul a ajuns la poziția inițială, activează Idle
-                            animator.SetBool("IsIdle", true);
-                            Debug.Log("Tebuie să își activeze IDLE animatie");
-                           
-                    }
-                }
-                else if (Vector3.Distance(transform.position, initialPosition) <= returnRange)
-                {
-                    // Botul a revenit la poziția inițială, dezactivează "Walking"
-                    animator.SetBool("IsWalking", false);
-                }
-            }
-            else
-            {
-                // Botul se află în raza de urmărire a jucătorului
-                isReturning = false;
-                animator.SetBool("IsIdle", false);
-                animator.SetBool("IsWalking", distanceToPlayer > attackRange);
-                animator.SetBool("IsRunning", distanceToPlayer > chaseRange);
-                animator.SetBool("IsAttacking0" + Random.Range(1, 3), distanceToPlayer <= attackRange);
-                navMeshAgent.SetDestination(player.position);
-            }
-        }
-        else
-        {
-            Debug.LogError("Nu a fost atașat jucătorul la script sau jucătorul este nul.");
-        }
-    }
-}
- */
-/* 
-using UnityEngine;
-using UnityEngine.AI;
-
-public class AIControler : MonoBehaviour
-{
-    public Transform player; 
-    private NavMeshAgent navMeshAgent;
-    private Animator animator;
-    public float attackRange = 0.1f;
-    public float chaseRange = 0.2f;
-    public float returnRange = 1f;
-    private Vector3 initialPosition;
-    private enum BotState { Idle, Walking, Running, Attacking, Returning }
-    private BotState currentState = BotState.Idle;
-
-    private void Start()
-    {
-        animator = GetComponent<Animator>();
-        navMeshAgent = GetComponent<NavMeshAgent>();
-        if (animator == null || navMeshAgent == null)
-        {
-            Debug.LogError("Componenta NavMeshAgent sau Animator nu a fost găsită pe acest obiect.");
-        }
-       
-        initialPosition = transform.position;
-    }
-
-    private void Update()
-    {
-        if (player != null)
-        {
-            float distanceToPlayer = Vector3.Distance(transform.position, player.position);
-
-            switch (currentState)
-            {
-                case BotState.Idle:
-                    animator.SetBool("IsIdle", true);
-                    animator.SetBool("IsWalking", false);
-                    animator.SetBool("IsRunning", false);
-                    animator.SetBool("IsAttacking01", false);
-
-                    if (distanceToPlayer <= chaseRange)
-                    {
-                        currentState = BotState.Running;
-                        break;
-                    }
-
-                    if (Vector3.Distance(transform.position, initialPosition) > returnRange)
-                    {
-                        currentState = BotState.Returning;
-                        navMeshAgent.SetDestination(initialPosition);
-                    }
-                    break;
-
-                case BotState.Walking:
-                    animator.SetBool("IsWalking", false);
-
-                    // Setează starea animatorului pentru mers
-                    break;
-
-                case BotState.Running:
-                    animator.SetBool("IsRunning", false);
-
-                    // Setează starea animatorului pentru fugă
-                    break;
-
-                case BotState.Attacking:
-                    animator.SetBool("IsAttacking0" + Random.Range(1, 3), distanceToPlayer <= attackRange);
-                    // Setează starea animatorului pentru atac
-                    break;
-
-                case BotState.Returning:
-                    if (Vector3.Distance(transform.position, initialPosition) <= returnRange)
-                    {
-                        // Botul a revenit la poziția inițială, activează Idle
-                        currentState = BotState.Idle;
-                    }
-                    break;
-            }
-        }
-        else
-        {
-            Debug.LogError("Jucătorul nu a fost atașat la script sau jucătorul este nul.");
-        }
-    }
-}
- */using UnityEngine;
 using UnityEngine.AI;
 
 public class AIController : MonoBehaviour
 {
-    public Transform player;
-    private NavMeshAgent navMeshAgent;
-    private Animator animator;
-    public float attackRange = 0.1f;
-    public float chaseRange = 10.0f; // Am crescut raza de urmărire
-    public float returnRange = 5.0f;
-    private Vector3 initialPosition;
-    private bool isReturning = false;
+     Transform player;
+    Transform botTransform;
+    private NavMeshAgent agent;
+    public int damage = 10; // Dauna cauzată de sabie
+    public int maxHealth = 100;
+    private int currentHealth;
+    public Animator animator;
+    float timer;
+    Transform initialTransform;
+   // NavMeshAgent agent;
+    float chaseRange = 5;
+    public Vector3 initialPosition;
+    float attackRange = 3;
 
     private void Start()
     {
-        animator = GetComponent<Animator>();
-        navMeshAgent = GetComponent<NavMeshAgent>();
-        if (animator == null || navMeshAgent == null)
-        {
-            Debug.LogError("Componenta NavMeshAgent sau Animator nu a fost găsită pe acest obiect.");
-        }
+        player = GameObject.FindGameObjectWithTag("Player").transform;
 
+        agent = GetComponent<NavMeshAgent>();
+
+        botTransform = transform; 
+        animator = GetComponent<Animator>();
+        //collider = GetComponent<Collision>();
+        currentHealth = maxHealth;
+        timer = 0;
+        player = GameObject.FindGameObjectWithTag("Player").transform;
+        initialTransform = GameObject.FindGameObjectWithTag("Points").transform;
+        initialPosition = transform.position;
+    }
+    private void Update() 
+    {
+           animator.SetBool("IsIdle", true);
+           Debug.Log("Animator = "+animator.GetBool("IsIdle"));
+        if(animator.GetBool("IsIdle"))
+        {
+                timer += Time.deltaTime;
+            //if (timer > 5)
+               // SetBool("isPatrolling", true);
+            Debug.Log("IS IDLE!!");
+            float distance = Vector3.Distance(this.transform.position, player.position);
+            if (distance < chaseRange && distance > 2)
+            {
+                animator.SetBool("IsRunning", true);
+                animator.SetBool("IsWalking", false);
+                transform.LookAt(player);
+            }
+        }
+        if(animator.GetBool("IsWalking"))
+        {
+            agent.SetDestination(initialTransform.position);
+            agent.speed = 2; 
+            float distance = Vector3.Distance(transform.position, player.position);
+            if (distance < chaseRange && distance > 2)
+            {
+                animator.SetBool("IsWalking", false);
+                animator.SetBool("IsRunning", true);
+                transform.LookAt(player);
+            }
+            else
+            {
+                animator.SetBool("IsRunning", false);
+                //SetBool("IsWalking", true);
+                
+            }
+            float distance2 = Vector3.Distance(transform.position, initialTransform.position);
+
+
+            if(distance2 < 1)
+            {
+                animator.SetBool("IsWalking", false); 
+            }
+        }
+        if(animator.GetBool("IsRunning"))
+        {
+            float distance = Vector3.Distance(transform.position, player.position);
+
+            agent.SetDestination(player.position);
+            transform.LookAt(player.position);
+            // Debug.Log("distance = "+ distance);
+            if (distance <= attackRange)
+            {
+                animator.SetBool("IsAttacking01", true);
+                //SetBool("IsRunning", false);
+            }
+
+
+            //float distance2 = Vector3.Distance(transform.position, initialTransform.position);
+            if (distance < 2)
+            {
+
+                animator.SetBool("IsRunning", false);
+                //SetBool("IsWalking", true);
+                //agent.SetDestination(initialPosition);
+
+            }
+            if(distance > chaseRange)
+            {
+                animator.SetBool("IsRunning", false);
+                animator.SetBool("IsWalking", true);
+
+            }
+        }
+        if(animator.GetBool("IsAttacking01"))
+        {
+            agent.SetDestination(player.position);
+
+            float distance = Vector3.Distance(transform.position, player.position);
+            if (distance > 3)
+                animator.SetBool("IsAttacking01", false);
+
+            if (distance > 15 || distance < 2)
+            {
+                animator.SetBool("IsRunning", false); 
+            }
+        }        
+    }
+    private void OnCollisionEnter(Collision collision)
+    {
+        // Verificăm dacă obiectul lovit are un tag "Enemy"
+        if (collision.gameObject.CompareTag("PlayerSword"))
+        {
+            // Obținem componenta "Enemy" atașată obiectului lovit
+            //Enemy enemy = collision.gameObject.GetComponent<Enemy>();
+        // Verificăm dacă am găsit componenta "Enemy"
+            // Apelăm metoda "TakeDamage" a inamicului pentru a-i cauza dauna
+                TakeDamage(damage);
+    }
+    }
+        public void TakeDamage(int damage)
+        {
+            Debug.Log("damage -20 enemy");
+            Debug.Log("Enemie health: "+currentHealth);
+            currentHealth -= damage;
+            animator.SetBool("IsAttacking01", false);
+            animator.SetBool("Damage", true);
+            if (currentHealth <= 0)
+            {
+
+                // Jucătorul a murit, poți adăuga aici orice logică ai nevoie pentru a gestiona moartea jucătorului
+                Debug.Log("Enemy died!");
+                // De obicei, ar fi bine să dezactivezi jucătorul sau să încarci o scenă de game over
+            }
+        }
+ 
+}
+ 
+ /* 
+ using UnityEngine;
+using UnityEngine.AI;
+
+public class AIController : MonoBehaviour
+{
+    private Transform player;
+    private Transform botTransform;
+    private NavMeshAgent agent;
+    public int damage = 10; // Dauna cauzată de sabie
+    public int maxHealth = 100;
+    private int currentHealth;
+    public Animator animator;
+    private float chaseRange = 5;
+    private Vector3 initialPosition;
+    private float attackRange = 3;
+
+    private void Start()
+    {
+        player = GameObject.FindGameObjectWithTag("Player").transform;
+        agent = GetComponent<NavMeshAgent>();
+        botTransform = transform;
+        animator = GetComponent<Animator>();
+        currentHealth = maxHealth;
         initialPosition = transform.position;
     }
 
     private void Update()
     {
-        if (player != null)
+        float distance = Vector3.Distance(transform.position, player.position);
+
+        if (distance < chaseRange && distance > attackRange)
         {
-            float distanceToPlayer = Vector3.Distance(transform.position, player.position);
+            // Urmează jucătorul
+            agent.SetDestination(player.position);
 
-            if (distanceToPlayer > chaseRange)
-            {
-               /*  animator.SetBool("IsIdle", true); // Activează animația Idle
-                animator.SetBool("IsWalking", false);
-                animator.SetBool("IsRunning", false);
-                animator.SetBool("IsAttacking01", false); */
+            // Face față jucătorului
+            transform.LookAt(player.position);
 
-                // Verificați dacă botul este deja în procesul de întoarcere
-                if (!isReturning)
-                {
-                    // Dacă depășește distanța de returnare, începe să se întoarcă
-                    if (Vector3.Distance(transform.position, initialPosition) > returnRange)
-                    {
-                        Debug.Log("IsWalking == true (398)(if)");
-                        isReturning = true;
-                        animator.SetBool("IsWalking", true);
-                        navMeshAgent.SetDestination(initialPosition);
-                    }
-                    else
-                    {
-                        Debug.Log("IsIdle == true (404)(else)");
-                        isReturning = false;
-                        // Botul a ajuns la poziția inițială, activează Idle
-                        animator.SetBool("IsWalking", false);
-                        animator.SetBool("IsIdle", true); // Activează animația Idle
-                    }
-                }
-            }
-            if(isReturning || Vector3.Distance(transform.position, initialPosition) > returnRange)
+            if (distance <= attackRange)
             {
-                animator.SetBool("IsIdle", true);
+                // Dacă e la distanță de atac, declanșează animația de atac
+                animator.SetBool("IsAttacking01", true);
             }
             else
             {
-                // Botul se află în raza de urmărire a jucătorului
-                isReturning = false;
-                animator.SetBool("IsIdle", false);
-                animator.SetBool("IsWalking", distanceToPlayer > attackRange);
-                animator.SetBool("IsRunning", distanceToPlayer > chaseRange);
-                animator.SetBool("IsAttacking0" + Random.Range(1, 3), distanceToPlayer <= attackRange);
-                navMeshAgent.SetDestination(player.position);
+                // Dacă nu e la distanță de atac, oprește animația de atac
+                animator.SetBool("IsAttacking01", false);
             }
         }
-        else
+
+        // Restul codului pentru starea "IsIdle", "IsWalking" și "IsRunning" poate rămâne în funcțiile corespunzătoare Animatorului și
+        // ar trebui să fie gestionat în Animator Controller.
+
+        // Restul codului pentru gestionarea stării de daună trebuie să rămână neschimbat.
+    }
+
+    private void OnCollisionEnter(Collision collision)
+    {
+        if (collision.gameObject.CompareTag("PlayerSword"))
         {
-            Debug.LogError("Jucătorul nu a fost atașat la script sau jucătorul este nul.");
+            // Dacă inamicul este lovit de sabie
+            TakeDamage(damage);
+        }
+    }
+
+    private void TakeDamage(int damage)
+    {
+        // Cauzează daună inamicului
+        currentHealth -= damage;
+        animator.SetBool("Damage", true);
+
+        if (currentHealth <= 0)
+        {
+            // Inamicul a murit
+            Debug.Log("Enemy died!");
+            // Aici poți adăuga logica pentru când inamicul moare
+            Destroy(gameObject); // De exemplu, poți distruge inamicul sau să îl dezactivezi
         }
     }
 }
+ */

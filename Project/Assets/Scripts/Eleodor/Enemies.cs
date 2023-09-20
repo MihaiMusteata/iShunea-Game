@@ -4,10 +4,11 @@ using UnityEngine;
 
 public class Enemies : MonoBehaviour
 {
-    public int damage = 10; // Dauna cauzată de sabie
+    /* public int damage = 10; // Dauna cauzată de sabie
     public int maxHealth = 100;
     private int currentHealth;
     public Animator animator;
+   
     private void OnCollisionEnter(Collision collision)
     {
         // Verificăm dacă obiectul lovit are un tag "Enemy"
@@ -27,6 +28,7 @@ public class Enemies : MonoBehaviour
 
     private void Start()
     {
+        animator = GetComponent<Animator>();
         currentHealth = maxHealth;
     }
 
@@ -44,6 +46,6 @@ public class Enemies : MonoBehaviour
             Debug.Log("Enemy died!");
             // De obicei, ar fi bine să dezactivezi jucătorul sau să încarci o scenă de game over
         }
-    }
+    } */
 }
 

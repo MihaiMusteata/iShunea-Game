@@ -1,11 +1,10 @@
-using System.Collections;
+/* using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.AI;
 
 public class IdleBehaviour : StateMachineBehaviour
 {
-    /* public IdleBehaviour(){} */
     float timer;
     Transform player;
     Transform initialTransform;
@@ -39,26 +38,8 @@ public class IdleBehaviour : StateMachineBehaviour
             animator.SetBool("IsWalking", false);
             animator.transform.LookAt(player);
         }
-      /*   else if(distance > chaseRange)
-        {
-            animator.SetBool("IsWalking", true);
-            //agent.SetDestination(initialPosition); 
-        } */
-         /* float distance2 = Vector3.Distance(animator.transform.position, initialTransform.position);
-        if(distance2 != 0 && distance > 6)
-        {
-            animator.SetBool("IsWalking", true);
-            agent.SetDestination(initialTransform.position);
-            agent.speed = 2; 
-        }
-        else if(distance2 < 1 && distance > 6)
-            animator.SetBool("IsWalking", false);  */
+      
 
     }
-
-    // OnStateExit is called when a transition ends and the state machine finishes evaluating this state
-  /*    override public void OnStateExit(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
-    {
-        initialPosition = agent.transform.position;
-    }  */
 }
+ */

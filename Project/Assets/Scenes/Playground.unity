@@ -24854,9 +24854,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 25901be907f498847aa46fdc1c88bd53, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  footStepVolume: 0.1
+  footStepVolume: 0.5
+  AttackVolume: 0.5
   footStepSounds:
   - {fileID: 8300000, guid: d4f4da06b9632a845bfc5492f2e490ea, type: 3}
+  AttackSounds:
+  - {fileID: 8300000, guid: c5d09cb27e422c948ba2b3c4d88bec04, type: 3}
 --- !u!136 &1277534018
 CapsuleCollider:
   m_ObjectHideFlags: 0
@@ -24998,9 +25001,22 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 24fc55ced43993d4fb8cd0c23a6c869c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &1277534025
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1277534013}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d58ef62b1550ad04c828f425a9ec4285, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
   damage: 10
   maxHealth: 100
   animator: {fileID: 1277534023}
+  initialPosition: {x: 0, y: 0, z: 0}
 --- !u!1 &1279334597 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 100002, guid: 5b8044e6f6d48d34d9b22b9c5eb6e799, type: 3}
@@ -26979,8 +26995,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   footStepVolume: 0.5
+  AttackVolume: 0.1
   footStepSounds:
   - {fileID: 8300000, guid: d4f4da06b9632a845bfc5492f2e490ea, type: 3}
+  AttackSounds: []
 --- !u!114 &1416711050
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -26993,10 +27011,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d58ef62b1550ad04c828f425a9ec4285, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  player: {fileID: 0}
-  attackRange: 0.1
-  chaseRange: 10
-  returnRange: 5
+  damage: 10
+  maxHealth: 100
+  animator: {fileID: 0}
+  initialPosition: {x: 0, y: 0, z: 0}
 --- !u!195 &1416711051
 NavMeshAgent:
   m_ObjectHideFlags: 0
@@ -30093,6 +30111,9 @@ PrefabInstance:
     - targetCorrespondingSourceObject: {fileID: 100004, guid: 5bdb723f10fa9bd498f304f0a10f2ec4, type: 3}
       insertIndex: -1
       addedObject: {fileID: 1277534024}
+    - targetCorrespondingSourceObject: {fileID: 100004, guid: 5bdb723f10fa9bd498f304f0a10f2ec4, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 1277534025}
     - targetCorrespondingSourceObject: {fileID: 100130, guid: 5bdb723f10fa9bd498f304f0a10f2ec4, type: 3}
       insertIndex: -1
       addedObject: {fileID: 1162073592}
