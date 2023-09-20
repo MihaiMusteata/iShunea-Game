@@ -1,4 +1,4 @@
-using System.Collections;
+/* using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.AI;
@@ -53,33 +53,16 @@ public class ChaseBehaviour : StateMachineBehaviour
             animator.SetBool("IsWalking", true);
             
         }
-        /* else if(distance > chaseRange)
-        {
-                animator.SetBool("IsWalking", true);
-                agent.SetDestination(initialTransform.position); 
-        } */
         
-         /* if(distance2 != 0 && distance > 5)
-            {
-                animator.SetBool("IsWalking", true);
-                agent.SetDestination(initialTransform.position);
-                agent.speed = 2;
-            }
-            else if(distance2 == 0)
-                animator.SetBool("IsWalking", false); */
     }
 
     // OnStateExit is called when a transition ends and the state machine finishes evaluating this state
     override public void OnStateExit(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
     {
         
-         /* float distance2 = Vector3.Distance(animator.transform.position, initialTransform.position);
-        if(distance2 != 0)
-            animator.SetBool("IsWalking", true);
-        else if(distance2 == 0)
-            animator.SetBool("IsWalking", false); */
 
         //agent.SetDestination(initialTransform.position);
         //agent.speed = 2; 
     }
 }
+ */

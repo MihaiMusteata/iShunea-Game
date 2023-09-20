@@ -40,13 +40,13 @@ public class PlayerHealthManager : MonoBehaviour
      public void TakeDamage(int damage)
      {
          currentHP -= damage;
-         Debug.Log("-10 damage!!!");
+        // Debug.Log("-10 damage!!!");
          GameEventsManager.instance.playerEvents.PlayerHealthChange(currentHP);
 
          if (currentHP <= 0)
          {
              // Jucătorul a murit, poți adăuga aici orice logică ai nevoie pentru a gestiona moartea jucătorului
-             Debug.Log("Player died!");
+             //Debug.Log("Player died!");
              // De obicei, ar fi bine să dezactivezi jucătorul sau să încarci o scenă de game over
          }
      }
