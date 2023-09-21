@@ -2,48 +2,26 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Coin : MonoBehaviour
+public class Coin : MonoBehaviour, IDataPersistence
 {
-     [Header("Config")]
-     [SerializeField] private float respawnTimeSeconds = 8;
-     [SerializeField] private int goldGained = 1;
-     [SerializeField] private bool respawn = false;
-
-     private BoxCollider boxCollider;
-     private Vector3 startingPosition;
-     private MeshRenderer meshRenderer;
-
-     private void Awake()
+     [SerializeField] private string id;
+     [ContextMenu("Generate guid for id")]
+     private void GenerateGuid()
      {
-          boxCollider = GetComponent<BoxCollider>();
-          startingPosition = transform.position;
-          meshRenderer = GetComponent<MeshRenderer>();
+          id = System.Guid.NewGuid().ToString();
      }
+
+     [Header("Config")]
+     [SerializeField] private int goldGained = 1;
+     
+     private bool collected = false;
 
      private void CollectCoin()
      {
           GameEventsManager.instance.goldEvents.GoldGained(goldGained);
           GameEventsManager.instance.miscEvents.CoinCollected();
-          StopAllCoroutines();
-          if (respawn)
-          {
-               StopAllCoroutines();
-               StartCoroutine(RespawnAfterTime());
-               boxCollider.enabled = false;
-               meshRenderer.enabled = false;
-          }
-          else
-          {
-               Destroy(gameObject);
-          }
-     }
-
-     private IEnumerator RespawnAfterTime()
-     {
-          yield return new WaitForSeconds(respawnTimeSeconds);
-          transform.position = startingPosition;
-          boxCollider.enabled = true;
-          meshRenderer.enabled = true;
+          Destroy(gameObject);
+          collected = true;
      }
 
      private void OnTriggerEnter(Collider otherCollider)
@@ -52,5 +30,24 @@ public class Coin : MonoBehaviour
           {
                CollectCoin();
           }
+     }
+
+
+     public void LoadData(GameData data)
+     {
+          data.coinsCollected.TryGetValue(id, out collected);
+          if (collected)
+          {
+               gameObject.SetActive(false);
+          }
+     }
+
+     public void SaveData(GameData data)
+     {
+          if (data.coinsCollected.ContainsKey(id))
+          {
+               data.coinsCollected.Remove(id);
+          }
+          data.coinsCollected.Add(id, collected);
      }
 }

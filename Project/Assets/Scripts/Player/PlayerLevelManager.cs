@@ -2,47 +2,58 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class PlayerLevelManager : MonoBehaviour
+public class PlayerLevelManager : MonoBehaviour, IDataPersistence
 {
-    [Header("Configuration")]
-    [SerializeField] private int startingLevel = 1;
-    [SerializeField] private int startingExperience = 0;
+     [Header("Configuration")]
+     [SerializeField] private int startingLevel = 1;
+     [SerializeField] private int startingExperience = 0;
 
-    private int currentLevel;
-    private int currentExperience;
+     private int currentLevel;
+     private int currentExperience;
 
-    private void Awake()
-    {
-        currentLevel = startingLevel;
-        currentExperience = startingExperience;
-    }
+     public void SaveData(GameData data)
+     {
+          data.currentLevel = currentLevel;
+          data.currentExperience = currentExperience;
+     }
+     public void LoadData(GameData data)
+     {
+          currentLevel = data.currentLevel;
+          currentExperience = data.currentExperience;
+     }
 
-    private void OnEnable()
-    {
-        GameEventsManager.instance.playerEvents.onExperienceGained += ExperienceGained;
-    }
+     private void Awake()
+     {
+          currentLevel = startingLevel;
+          currentExperience = startingExperience;
+     }
 
-    private void OnDisable() 
-    {
-        GameEventsManager.instance.playerEvents.onExperienceGained -= ExperienceGained;
-    }
+     private void OnEnable()
+     {
+          GameEventsManager.instance.playerEvents.onExperienceGained += ExperienceGained;
+     }
 
-    private void Start()
-    {
-        GameEventsManager.instance.playerEvents.PlayerLevelChange(currentLevel);
-        GameEventsManager.instance.playerEvents.PlayerExperienceChange(currentExperience);
-    }
+     private void OnDisable()
+     {
+          GameEventsManager.instance.playerEvents.onExperienceGained -= ExperienceGained;
+     }
 
-    private void ExperienceGained(int experience) 
-    {
-        currentExperience += experience;
-        // check if we're ready to level up
-        while (currentExperience >= GlobalConstants.experienceToLevelUp) 
-        {
-            currentExperience -= GlobalConstants.experienceToLevelUp;
-            currentLevel++;
-            GameEventsManager.instance.playerEvents.PlayerLevelChange(currentLevel);
-        }
-        GameEventsManager.instance.playerEvents.PlayerExperienceChange(currentExperience);
-    }
+     private void Start()
+     {
+          GameEventsManager.instance.playerEvents.PlayerLevelChange(currentLevel);
+          GameEventsManager.instance.playerEvents.PlayerExperienceChange(currentExperience);
+     }
+
+     private void ExperienceGained(int experience)
+     {
+          currentExperience += experience;
+          // check if we're ready to level up
+          while (currentExperience >= GlobalConstants.experienceToLevelUp)
+          {
+               currentExperience -= GlobalConstants.experienceToLevelUp;
+               currentLevel++;
+               GameEventsManager.instance.playerEvents.PlayerLevelChange(currentLevel);
+          }
+          GameEventsManager.instance.playerEvents.PlayerExperienceChange(currentExperience);
+     }
 }

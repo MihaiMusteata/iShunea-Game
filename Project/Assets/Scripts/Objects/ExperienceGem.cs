@@ -2,47 +2,26 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class ExperienceGem : MonoBehaviour
+public class ExperienceGem : MonoBehaviour, IDataPersistence
 {
-     [Header("Config")]
-     [SerializeField] private float respawnTimeSeconds = 2;
-     [SerializeField] private int experienceGained = 25;
-     [SerializeField] private bool respawn = false;
-
-     private BoxCollider boxCollider;
-     private Vector3 startingPosition;
-     private MeshRenderer meshRenderer;
-
-     private void Awake()
+     [SerializeField] private string id;
+     [ContextMenu("Generate guid for id")]
+     private void GenerateGuid()
      {
-          boxCollider = GetComponent<BoxCollider>();
-          startingPosition = transform.position;
-          meshRenderer = GetComponent<MeshRenderer>();
+          id = System.Guid.NewGuid().ToString();
      }
+
+     [Header("Config")]
+     [SerializeField] private int experienceGained = 25;
+
+     private bool collected = false;
 
      private void CollectGem()
      {
           GameEventsManager.instance.playerEvents.ExperienceGained(experienceGained);
           GameEventsManager.instance.miscEvents.GemCollected();
-          if (respawn)
-          {
-               StopAllCoroutines();
-               StartCoroutine(RespawnAfterTime());
-               boxCollider.enabled = false;
-               meshRenderer.enabled = false;
-          }
-          else
-          {
-               Destroy(gameObject);
-          }
-     }
-
-     private IEnumerator RespawnAfterTime()
-     {
-          yield return new WaitForSeconds(respawnTimeSeconds);
-          transform.position = startingPosition;
-          boxCollider.enabled = true;
-          meshRenderer.enabled = true;
+          Destroy(gameObject);
+          collected = true;
      }
 
      private void OnTriggerEnter(Collider otherCollider)
@@ -51,5 +30,23 @@ public class ExperienceGem : MonoBehaviour
           {
                CollectGem();
           }
+     }
+
+     public void LoadData(GameData data)
+     {
+          data.gemsCollected.TryGetValue(id, out collected);
+          if (collected)
+          {
+               gameObject.SetActive(false);
+          }
+     }
+
+     public void SaveData(GameData data)
+     {
+          if (data.gemsCollected.ContainsKey(id))
+          {
+               data.gemsCollected.Remove(id);
+          }
+          data.gemsCollected.Add(id, collected);
      }
 }
