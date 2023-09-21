@@ -1,8 +1,10 @@
 using UnityEngine;
 using UnityEngine.AI;
+using System.Collections;
 
 public class AIController : MonoBehaviour
 {
+    
      Transform player;
     Transform botTransform;
     private NavMeshAgent agent;
@@ -12,7 +14,6 @@ public class AIController : MonoBehaviour
     public Animator animator;
     float timer;
     Transform initialTransform;
-   // NavMeshAgent agent;
     float chaseRange = 5;
     public Vector3 initialPosition;
     float attackRange = 3;
@@ -32,24 +33,9 @@ public class AIController : MonoBehaviour
         initialTransform = GameObject.FindGameObjectWithTag("Points").transform;
         initialPosition = transform.position;
     }
+    
     private void Update() 
     {
-           animator.SetBool("IsIdle", true);
-           Debug.Log("Animator = "+animator.GetBool("IsIdle"));
-        if(animator.GetBool("IsIdle"))
-        {
-                timer += Time.deltaTime;
-            //if (timer > 5)
-               // SetBool("isPatrolling", true);
-            Debug.Log("IS IDLE!!");
-            float distance = Vector3.Distance(this.transform.position, player.position);
-            if (distance < chaseRange && distance > 2)
-            {
-                animator.SetBool("IsRunning", true);
-                animator.SetBool("IsWalking", false);
-                transform.LookAt(player);
-            }
-        }
         if(animator.GetBool("IsWalking"))
         {
             agent.SetDestination(initialTransform.position);
@@ -80,6 +66,7 @@ public class AIController : MonoBehaviour
             float distance = Vector3.Distance(transform.position, player.position);
 
             agent.SetDestination(player.position);
+
             transform.LookAt(player.position);
             // Debug.Log("distance = "+ distance);
             if (distance <= attackRange)
@@ -107,8 +94,6 @@ public class AIController : MonoBehaviour
         }
         if(animator.GetBool("IsAttacking01"))
         {
-            agent.SetDestination(player.position);
-
             float distance = Vector3.Distance(transform.position, player.position);
             if (distance > 3)
                 animator.SetBool("IsAttacking01", false);
@@ -117,8 +102,23 @@ public class AIController : MonoBehaviour
             {
                 animator.SetBool("IsRunning", false); 
             }
-        }        
+        }  
+        else 
+        {
+               timer += Time.deltaTime;
+            //if (timer > 5)
+               // SetBool("isPatrolling", true);
+            //Debug.Log("IS IDLE!!");
+            float distance = Vector3.Distance(this.transform.position, player.position);
+            if (distance < chaseRange && distance > 2)
+            {
+                animator.SetBool("IsRunning", true);
+                animator.SetBool("IsWalking", false);
+                transform.LookAt(player);
+            }
+        }      
     }
+    
     private void OnCollisionEnter(Collision collision)
     {
         // Verificăm dacă obiectul lovit are un tag "Enemy"
@@ -148,86 +148,3 @@ public class AIController : MonoBehaviour
         }
  
 }
- 
- /* 
- using UnityEngine;
-using UnityEngine.AI;
-
-public class AIController : MonoBehaviour
-{
-    private Transform player;
-    private Transform botTransform;
-    private NavMeshAgent agent;
-    public int damage = 10; // Dauna cauzată de sabie
-    public int maxHealth = 100;
-    private int currentHealth;
-    public Animator animator;
-    private float chaseRange = 5;
-    private Vector3 initialPosition;
-    private float attackRange = 3;
-
-    private void Start()
-    {
-        player = GameObject.FindGameObjectWithTag("Player").transform;
-        agent = GetComponent<NavMeshAgent>();
-        botTransform = transform;
-        animator = GetComponent<Animator>();
-        currentHealth = maxHealth;
-        initialPosition = transform.position;
-    }
-
-    private void Update()
-    {
-        float distance = Vector3.Distance(transform.position, player.position);
-
-        if (distance < chaseRange && distance > attackRange)
-        {
-            // Urmează jucătorul
-            agent.SetDestination(player.position);
-
-            // Face față jucătorului
-            transform.LookAt(player.position);
-
-            if (distance <= attackRange)
-            {
-                // Dacă e la distanță de atac, declanșează animația de atac
-                animator.SetBool("IsAttacking01", true);
-            }
-            else
-            {
-                // Dacă nu e la distanță de atac, oprește animația de atac
-                animator.SetBool("IsAttacking01", false);
-            }
-        }
-
-        // Restul codului pentru starea "IsIdle", "IsWalking" și "IsRunning" poate rămâne în funcțiile corespunzătoare Animatorului și
-        // ar trebui să fie gestionat în Animator Controller.
-
-        // Restul codului pentru gestionarea stării de daună trebuie să rămână neschimbat.
-    }
-
-    private void OnCollisionEnter(Collision collision)
-    {
-        if (collision.gameObject.CompareTag("PlayerSword"))
-        {
-            // Dacă inamicul este lovit de sabie
-            TakeDamage(damage);
-        }
-    }
-
-    private void TakeDamage(int damage)
-    {
-        // Cauzează daună inamicului
-        currentHealth -= damage;
-        animator.SetBool("Damage", true);
-
-        if (currentHealth <= 0)
-        {
-            // Inamicul a murit
-            Debug.Log("Enemy died!");
-            // Aici poți adăuga logica pentru când inamicul moare
-            Destroy(gameObject); // De exemplu, poți distruge inamicul sau să îl dezactivezi
-        }
-    }
-}
- */
