@@ -1,20 +1,31 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.SceneManagement;
+using StarterAssets;
 
 public class TeleportManager : MonoBehaviour
 {
-     [Header("Components")]
-     [SerializeField] private List<string> sceneNames;
+     [SerializeField] private GameObject player;
      public static TeleportManager instance;
-
+     //PlayerController
+     private ThirdPersonController playerController;
      private void Awake()
      {
           instance = this;
+          playerController = player.GetComponent<ThirdPersonController>();
+
      }
-     public void SwitchToScene(string sceneName)
+     public void Teleport(Transform location)
      {
-          SceneManager.LoadScene(sceneName);
+          StartCoroutine("TeleportCoroutine", location);
+     }
+
+     IEnumerator TeleportCoroutine(Transform location)
+     {
+          playerController.isTeleporting = true;
+          yield return new WaitForSeconds(0.1f);
+          player.transform.position = location.position;
+          yield return new WaitForSeconds(0.1f);
+          playerController.isTeleporting = false;
      }
 }

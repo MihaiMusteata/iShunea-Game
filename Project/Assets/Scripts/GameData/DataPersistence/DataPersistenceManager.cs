@@ -163,7 +163,7 @@ public class DataPersistenceManager : MonoBehaviour
 
           // timestamp the data so we know when it was last saved
           gameData.lastUpdated = System.DateTime.Now.ToBinary();
-
+          gameData.lastUpdate = System.DateTime.Now.ToString("yyyy-MM-dd");
           // save that data to a file using the data handler
           dataHandler.Save(gameData, selectedProfileId);
      }

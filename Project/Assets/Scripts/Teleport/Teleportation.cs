@@ -4,14 +4,20 @@ using UnityEngine;
 
 public class Teleportation : MonoBehaviour
 {
+     [Header("Maps")]
+     [SerializeField] private GameObject currentMap;
+     [SerializeField] private GameObject destinationMap;
      [Header("Destination")]
-     [SerializeField] private string sceneName;
+     [SerializeField] private Transform location;
+
 
      private void OnTriggerEnter(Collider other)
      {
           if (other.CompareTag("Player"))
           {
-               TeleportManager.instance.SwitchToScene(sceneName);
+               currentMap.SetActive(false);
+               TeleportManager.instance.Teleport(location);
+               destinationMap.SetActive(true);
           }
      }
 }

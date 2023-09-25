@@ -2,8 +2,15 @@ using UnityEngine;
 
 public class CameraTransition : MonoBehaviour
 {
+     [Header("Default")]
+     [SerializeField] private Transform defaultCamera;
+     [SerializeField] private Transform defaultCamPos;
+
+     [Header("Current")]
      [SerializeField] private Camera mainCamera;
      [SerializeField] private GameObject camPos;
+
+     [Header("Target")]
      public Quaternion mainCameraTarget;
      public Vector3 camPosTarget;
      public float smoothSpeed = 5f;
@@ -16,8 +23,8 @@ public class CameraTransition : MonoBehaviour
 
      private void Start()
      {
-          mainCameraInitialRotation = mainCamera.transform.rotation;
-          camPosInitialOffset = camPos.transform.position;
+          mainCameraInitialRotation = defaultCamera.rotation;
+          camPosInitialOffset = defaultCamPos.position;
      }
 
      private void Update()

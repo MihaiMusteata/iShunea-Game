@@ -8450,9 +8450,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2128c639f8402c64c8b49858c8442d50, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  sceneNames:
-  - WizardTower
-  - Playground
+  player: {fileID: 0}
 --- !u!1 &874605735
 GameObject:
   m_ObjectHideFlags: 0
@@ -11917,7 +11915,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!114 &1470638044
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -12168,6 +12166,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0bda8dc573d186444a4a7f19eeedd1f3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  animator: {fileID: 0}
+  damage: 10
 --- !u!65 &1499985479
 BoxCollider:
   m_ObjectHideFlags: 0

@@ -15,6 +15,7 @@ namespace StarterAssets
 #endif
      public class ThirdPersonController : MonoBehaviour, IDataPersistence
      {
+          //Game Data
           public void LoadData(GameData data)
           {
                this.transform.position = data.playerPosition;
@@ -24,6 +25,8 @@ namespace StarterAssets
                data.playerPosition = this.transform.position;
           }
           [Header("Player")]
+          public bool isTeleporting = false;
+
           [Tooltip("Move speed of the character in m/s")]
           public float MoveSpeed = 2.0f;
 
@@ -163,11 +166,14 @@ namespace StarterAssets
 
           private void Update()
           {
-               _hasAnimator = TryGetComponent(out _animator);
+               if (!isTeleporting)
+               {
+                    _hasAnimator = TryGetComponent(out _animator);
 
-               JumpAndGravity();
-               GroundedCheck();
-               Move();
+                    JumpAndGravity();
+                    GroundedCheck();
+                    Move();
+               }
           }
 
           private void LateUpdate()
