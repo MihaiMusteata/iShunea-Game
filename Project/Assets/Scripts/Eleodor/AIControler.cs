@@ -17,10 +17,12 @@ public class AIController : MonoBehaviour
     float chaseRange = 5;
     public Vector3 initialPosition;
     float attackRange = 3;
+    private CharacterController characterController;
 
     private void Start()
     {
         player = GameObject.FindGameObjectWithTag("Player").transform;
+        characterController = GetComponent<CharacterController>();
 
         agent = GetComponent<NavMeshAgent>();
 
@@ -45,7 +47,6 @@ public class AIController : MonoBehaviour
             {
                 animator.SetBool("IsWalking", false);
                 animator.SetBool("IsRunning", true);
-                transform.LookAt(player);
             }
             else
             {
@@ -66,9 +67,6 @@ public class AIController : MonoBehaviour
             float distance = Vector3.Distance(transform.position, player.position);
 
             agent.SetDestination(player.position);
-
-            transform.LookAt(player.position);
-            // Debug.Log("distance = "+ distance);
             if (distance <= attackRange)
             {
                 animator.SetBool("IsAttacking01", true);
@@ -94,8 +92,9 @@ public class AIController : MonoBehaviour
         }
         if(animator.GetBool("IsAttacking01"))
         {
+            agent.SetDestination(player.position);
             float distance = Vector3.Distance(transform.position, player.position);
-            if (distance > 3)
+            if (distance > 2)
                 animator.SetBool("IsAttacking01", false);
 
             if (distance > 15 || distance < 2)
@@ -103,35 +102,61 @@ public class AIController : MonoBehaviour
                 animator.SetBool("IsRunning", false); 
             }
         }  
+        if(animator.GetBool("Damage"))
+        {
+            Debug.Log("damage -20 enemy");
+            Debug.Log("Enemie health: "+currentHealth);
+            currentHealth -= damage;
+            if (currentHealth <= 0)
+            {
+                Debug.Log("Enemy died!");
+            }
+        }
         else 
         {
-               timer += Time.deltaTime;
-            //if (timer > 5)
-               // SetBool("isPatrolling", true);
-            //Debug.Log("IS IDLE!!");
             float distance = Vector3.Distance(this.transform.position, player.position);
             if (distance < chaseRange && distance > 2)
             {
                 animator.SetBool("IsRunning", true);
                 animator.SetBool("IsWalking", false);
-                transform.LookAt(player);
             }
-        }      
+        }   
+        //CheckCollisions();
+
     }
-    
-    private void OnCollisionEnter(Collision collision)
+    private IEnumerator PauzaDupaAnimatie()
     {
-        // Verificăm dacă obiectul lovit are un tag "Enemy"
-        if (collision.gameObject.CompareTag("PlayerSword"))
-        {
-            // Obținem componenta "Enemy" atașată obiectului lovit
-            //Enemy enemy = collision.gameObject.GetComponent<Enemy>();
-        // Verificăm dacă am găsit componenta "Enemy"
-            // Apelăm metoda "TakeDamage" a inamicului pentru a-i cauza dauna
-                TakeDamage(damage);
+        // Așteptați o secundă
+        yield return new WaitForSeconds(50.0f);
     }
-    }
-        public void TakeDamage(int damage)
+   /*  void CheckCollisions()
+    {
+        // Obținem extremitățile Character Controller-ului
+        //Vector3 bottom = transform.position - characterController.height / 2 * Vector3.up;
+        //Vector3 top = transform.position + characterController.height / 2 * Vector3.up;
+
+        // Verificăm coliziunile cu obiectele care au tag-ul "SpamPlane"
+        //Collider[] hitColliders = Physics.OverlapCapsule(bottom, top, characterController.radius);
+        Collider collider;
+        
+            
+        
+    } */
+   /*  void OnCollisionEnter(Collider colider)
+    {
+            if (colider.CompareTag("PlayerSword"))
+            {
+                Debug.Log("ceva");
+                animator.SetBool("Damage", true);
+                StartCoroutine(PauzaDupaAnimatie());
+            }
+            else
+            {
+                animator.SetBool("Damage", false);
+            }
+    } */
+    
+       /*  public void TakeDamage(int damage)
         {
             Debug.Log("damage -20 enemy");
             Debug.Log("Enemie health: "+currentHealth);
@@ -145,6 +170,6 @@ public class AIController : MonoBehaviour
                 Debug.Log("Enemy died!");
                 // De obicei, ar fi bine să dezactivezi jucătorul sau să încarci o scenă de game over
             }
-        }
+        } */
  
 }

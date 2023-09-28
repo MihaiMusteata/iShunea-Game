@@ -492,9 +492,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7bee159036d3e0144b5796d6c8d14d5a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  respawnTimeSeconds: 3
+  id: 
   experienceGained: 8
-  respawn: 0
 --- !u!1 &32260032 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 100002, guid: 8b2f72e7b516c0d41804ae0b7704480e, type: 3}
@@ -2103,6 +2102,8 @@ GameObject:
   - component: {fileID: 174639982}
   - component: {fileID: 174639981}
   - component: {fileID: 174639983}
+  - component: {fileID: 174639984}
+  - component: {fileID: 174639985}
   m_Layer: 0
   m_Name: Sword
   m_TagString: PlayerSword
@@ -2190,7 +2191,7 @@ CapsuleCollider:
     serializedVersion: 2
     m_Bits: 0
   m_LayerOverridePriority: 0
-  m_IsTrigger: 0
+  m_IsTrigger: 1
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 2
@@ -2198,6 +2199,45 @@ CapsuleCollider:
   m_Height: 1.4528035
   m_Direction: 1
   m_Center: {x: -0.0046802596, y: -0.51639, z: -0.04965682}
+--- !u!114 &174639984
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 174639979}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: cc6744ea157ee7f49893911180bfd269, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!54 &174639985
+Rigidbody:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 174639979}
+  serializedVersion: 4
+  m_Mass: 1
+  m_Drag: 0
+  m_AngularDrag: 0.05
+  m_CenterOfMass: {x: 0, y: 0, z: 0}
+  m_InertiaTensor: {x: 1, y: 1, z: 1}
+  m_InertiaRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ImplicitCom: 1
+  m_ImplicitTensor: 1
+  m_UseGravity: 0
+  m_IsKinematic: 0
+  m_Interpolate: 0
+  m_Constraints: 0
+  m_CollisionDetection: 0
 --- !u!1 &177645983 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 100000, guid: 5b8044e6f6d48d34d9b22b9c5eb6e799, type: 3}
@@ -2754,9 +2794,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7bee159036d3e0144b5796d6c8d14d5a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  respawnTimeSeconds: 3
+  id: 
   experienceGained: 8
-  respawn: 0
 --- !u!114 &245656671
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -18508,9 +18547,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e100c8af8870e2342a7e316b9b25914a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  respawnTimeSeconds: 2
+  id: 
   goldGained: 1
-  respawn: 0
 --- !u!1 &791486647 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 100002, guid: 5b8044e6f6d48d34d9b22b9c5eb6e799, type: 3}
@@ -22749,9 +22787,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e100c8af8870e2342a7e316b9b25914a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  respawnTimeSeconds: 2
+  id: 
   goldGained: 1
-  respawn: 0
 --- !u!1 &1131089141
 GameObject:
   m_ObjectHideFlags: 0
@@ -25013,10 +25050,32 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d58ef62b1550ad04c828f425a9ec4285, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  targetTag: PlayerSword
   damage: 10
   maxHealth: 100
   animator: {fileID: 1277534023}
   initialPosition: {x: 0, y: 0, z: 0}
+--- !u!65 &1277534026
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1277534013}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 0
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Size: {x: 1, y: 1, z: 1}
+  m_Center: {x: 0, y: 0, z: 0}
 --- !u!1 &1279334597 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 100002, guid: 5b8044e6f6d48d34d9b22b9c5eb6e799, type: 3}
@@ -25909,9 +25968,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2128c639f8402c64c8b49858c8442d50, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  sceneNames:
-  - WizardTower
-  - Nature
+  player: {fileID: 0}
 --- !u!1 &1356194412
 GameObject:
   m_ObjectHideFlags: 0
@@ -26333,9 +26390,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7bee159036d3e0144b5796d6c8d14d5a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  respawnTimeSeconds: 3
+  id: 
   experienceGained: 8
-  respawn: 0
 --- !u!1 &1385787528
 GameObject:
   m_ObjectHideFlags: 0
@@ -27011,6 +27067,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d58ef62b1550ad04c828f425a9ec4285, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  targetTag: YourTargetTag
   damage: 10
   maxHealth: 100
   animator: {fileID: 0}
@@ -29136,9 +29193,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e100c8af8870e2342a7e316b9b25914a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  respawnTimeSeconds: 2
+  id: 
   goldGained: 1
-  respawn: 0
 --- !u!1 &1585618339 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 100000, guid: 8b2f72e7b516c0d41804ae0b7704480e, type: 3}
@@ -30114,6 +30170,9 @@ PrefabInstance:
     - targetCorrespondingSourceObject: {fileID: 100004, guid: 5bdb723f10fa9bd498f304f0a10f2ec4, type: 3}
       insertIndex: -1
       addedObject: {fileID: 1277534025}
+    - targetCorrespondingSourceObject: {fileID: 100004, guid: 5bdb723f10fa9bd498f304f0a10f2ec4, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 1277534026}
     - targetCorrespondingSourceObject: {fileID: 100130, guid: 5bdb723f10fa9bd498f304f0a10f2ec4, type: 3}
       insertIndex: -1
       addedObject: {fileID: 1162073592}
@@ -30940,9 +30999,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e100c8af8870e2342a7e316b9b25914a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  respawnTimeSeconds: 2
+  id: 
   goldGained: 1
-  respawn: 0
 --- !u!1 &1687975869
 GameObject:
   m_ObjectHideFlags: 0
@@ -31789,7 +31847,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: faaef6516bf0bad4babb0ea62553a4ce, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  maxHealth: 100
 --- !u!1 &1764214107
 GameObject:
   m_ObjectHideFlags: 0
@@ -32953,9 +33010,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e100c8af8870e2342a7e316b9b25914a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  respawnTimeSeconds: 2
+  id: 
   goldGained: 1
-  respawn: 0
 --- !u!65 &1841951841
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -35502,9 +35558,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7bee159036d3e0144b5796d6c8d14d5a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  respawnTimeSeconds: 3
+  id: 
   experienceGained: 8
-  respawn: 0
 --- !u!1 &2048869982
 GameObject:
   m_ObjectHideFlags: 0
@@ -35784,7 +35839,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ed52552f8074ae84eb4ddc9bfb7c3751, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  sceneName: Nature
+  currentMap: {fileID: 0}
+  destinationMap: {fileID: 0}
+  location: {fileID: 0}
 --- !u!65 &2087794251
 BoxCollider:
   m_ObjectHideFlags: 0
