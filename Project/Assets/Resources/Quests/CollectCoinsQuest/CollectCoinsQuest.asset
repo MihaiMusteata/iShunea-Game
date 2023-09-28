@@ -15,7 +15,8 @@ MonoBehaviour:
   <id>k__BackingField: CollectCoinsQuest
   displayName: Collect the Coins
   levelRequirement: 1
-  questPrerequisites: []
+  questPrerequisites:
+  - {fileID: 11400000, guid: 1aceb192568b3c14fb9401d8a8c29600, type: 2}
   questStepPrefabs:
   - {fileID: 5685632757317139844, guid: c821ab9d4c078c748bc2bddf61d6c839, type: 3}
   goldReward: 3

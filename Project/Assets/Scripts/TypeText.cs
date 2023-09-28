@@ -6,18 +6,18 @@ using TMPro;
 public class TypeText : MonoBehaviour
 {
      [SerializeField] private TextMeshProUGUI textField;
+     [SerializeField] private GameObject button;
+     [SerializeField] private float typingSpeed = 0.1f;
      private string textToType;
-     public float typingSpeed = 0.1f;
 
      private bool isTyping = false;
 
-     public void GoType()
+     public void OnEnable()
      {
-          Debug.Log("A");
+          button.SetActive(false);
           textToType = textField.text;
           textField.text = "";
           StartCoroutine(Type());
-
      }
 
      IEnumerator Type()
@@ -29,5 +29,8 @@ public class TypeText : MonoBehaviour
                textField.text += textToType[i];
                yield return new WaitForSeconds(typingSpeed);
           }
+
+          button.SetActive(true);
+
      }
 }
