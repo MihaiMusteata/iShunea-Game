@@ -8,7 +8,7 @@ public class PlayerIsNear : MonoBehaviour
      public bool isInactive = false;
      private void Update()
      {
-          switch(objectType)
+          switch (objectType)
           {
                case "QuestIcon":
                     UpdateQuestIcon();
@@ -17,10 +17,10 @@ public class PlayerIsNear : MonoBehaviour
                     UpdateObject();
                     break;
           }
-          
- 
+
+
      }
-     private void UpdateQuestIcon()
+     public void UpdateQuestIcon()
      {
           if (!isInactive)
           {

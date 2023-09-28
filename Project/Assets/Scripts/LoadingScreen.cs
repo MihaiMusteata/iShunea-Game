@@ -19,29 +19,52 @@ public class LoadingScreen : MonoBehaviour
      {
           slider.fillAmount = 0f;
           canvasGroup = GetComponent<CanvasGroup>();
+          canvasGroup.alpha = 1f;
      }
+
      private void OnEnable()
      {
           slider.fillAmount = 0f;
           canvasGroup.alpha = 1f;
+          LoadScreen();
      }
-
-     private void Update()
+     
+     private void OnDisable()
      {
-          if (slider.fillAmount < 1f)
+          slider.fillAmount = 0f;
+          canvasGroup.alpha = 1f;
+     }
+     
+
+     public void LoadScreen()
+     {
+          StartCoroutine(LoadScreenAsync());
+     }
+
+     IEnumerator LoadScreenAsync()
+     {
+          float progress = 0f;
+          while (progress < 1f)
           {
-               slider.fillAmount += loadingSpeed * Time.deltaTime;
-               loadingText.text = (slider.fillAmount * 100).ToString("F0") + "%";
+               if (slider.fillAmount < 1f)
+               {
+                    slider.fillAmount += loadingSpeed * Time.deltaTime;
+                    loadingText.text = (slider.fillAmount * 100).ToString("F0") + "%";
+                    progress = slider.fillAmount;
+               }
+               else
+               {
+                    loadingText.text = "Loading Complete";
+                    break;
+               }
+               yield return null;
           }
-          else
-          {
-               loadingText.text = "Loading Complete";
-               StartCoroutine(FadeOut());
-          }
+
+          StartCoroutine(FadeOut());
      }
 
 
- 
+
      private IEnumerator FadeOut()
      {
           float startAlpha = canvasGroup.alpha;
@@ -59,5 +82,7 @@ public class LoadingScreen : MonoBehaviour
           gameObject.SetActive(false);
           canvasGroup.alpha = 0f;
      }
+
+
 
 }

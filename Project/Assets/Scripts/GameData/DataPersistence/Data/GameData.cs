@@ -11,6 +11,7 @@ public class GameData
      public SerializableDictionary<string, bool> gemsCollected;
      public SerializableDictionary<string, bool> coinsCollected;
      public AttributesData playerAttributesData;
+     public bool isTutorialCompleted = false;
      public int currentLevel;
      public int currentExperience;
      public int currentGold;
