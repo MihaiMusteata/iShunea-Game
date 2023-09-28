@@ -26698,6 +26698,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d58ef62b1550ad04c828f425a9ec4285, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  targetTag: YourTargetTag
   damage: 10
   maxHealth: 100
   animator: {fileID: 0}
