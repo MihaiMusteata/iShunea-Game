@@ -40,7 +40,7 @@ public class AIController : MonoBehaviour
     {
         if(animator.GetBool("IsWalking"))
         {
-            agent.SetDestination(initialTransform.position);
+            //agent.SetDestination(initialTransform.position);
             agent.speed = 2; 
             float distance = Vector3.Distance(transform.position, player.position);
             if (distance < chaseRange && distance > 2)
