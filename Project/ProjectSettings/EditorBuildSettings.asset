@@ -11,13 +11,13 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Scenes/MainGame.unity
     guid: 65bfea89f0615ea49a483f20d3dbaec5
-  - enabled: 1
+  - enabled: 0
     path: Assets/Scenes/Nature.unity
     guid: e9017d5f96b9f09489b4b37e1d6eb914
-  - enabled: 1
+  - enabled: 0
     path: Assets/Scenes/WizardTower.unity
     guid: a5ebc21067a3a7446beff9ec5d789430
-  - enabled: 1
+  - enabled: 0
     path: Assets/Scenes/Playground.unity
     guid: efe03b3a88a8d8548b6c637bf9cbfa55
   m_configObjects: {}
