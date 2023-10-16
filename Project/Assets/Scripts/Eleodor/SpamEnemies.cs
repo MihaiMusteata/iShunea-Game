@@ -129,7 +129,7 @@ public class SpamEnemies : MonoBehaviour
                 /* Debug.Log("Nu este NULL"); */
                 // Apelăm metoda "TakeDamage" a jucătorului pentru a-i cauza daune
                 //playerHealth.TakeDamage(damage);
-                PlayerHealthManager.instance.TakeDamage(damage);
+                //PlayerHealthManager.instance.TakeDamage(damage);
                 // Setăm canDamage pe false pentru a evita repetarea daunelor în aceeași coliziune
                 //canDamage = false;
             }

@@ -201,4 +201,8 @@ public class DataPersistenceManager : MonoBehaviour
                Debug.Log("Auto Saved Game");
           }
      }
+
+     public void BackToMenu()
+     {
+     }
 }

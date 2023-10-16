@@ -16,6 +16,8 @@ public class GameData
      public int currentExperience;
      public int currentGold;
      public string lastUpdate;
+     public bool gameOver = false;
+     public int currentHP;
 
 
      // the values defined in this constructor will be the default values

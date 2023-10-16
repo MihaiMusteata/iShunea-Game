@@ -2,10 +2,11 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class PlayerHealthManager : MonoBehaviour
+public class PlayerHealthManager : MonoBehaviour, IDataPersistence
 {
+     [SerializeField] GameObject restartGame;
      public static PlayerHealthManager instance;
-     public PlayerHealthManager(){}
+     public PlayerHealthManager() { }
      [Header("Configuration")]
      [SerializeField] private int startingHP = 100;
 
@@ -35,19 +36,35 @@ public class PlayerHealthManager : MonoBehaviour
      private void HealthGained(int health)
      {
           currentHP += health;
+          if (currentHP <= 0)
+          {
+               restartGame.SetActive(true);
+          }
           GameEventsManager.instance.playerEvents.PlayerHealthChange(currentHP);
      }
-     public void TakeDamage(int damage)
-     {
-         currentHP -= damage;
-        // Debug.Log("-10 damage!!!");
-         GameEventsManager.instance.playerEvents.PlayerHealthChange(currentHP);
+     //public void TakeDamage(int damage)
+     //{
+     //     currentHP -= damage;
+     //     // Debug.Log("-10 damage!!!");
+     //     GameEventsManager.instance.playerEvents.PlayerHealthChange(currentHP);
 
-         if (currentHP <= 0)
-         {
-             // Jucătorul a murit, poți adăuga aici orice logică ai nevoie pentru a gestiona moartea jucătorului
-             //Debug.Log("Player died!");
-             // De obicei, ar fi bine să dezactivezi jucătorul sau să încarci o scenă de game over
-         }
+     //     if (currentHP <= 0)
+     //     {
+     //          restartGame.SetActive(true);
+     //     }
+     //}
+
+     public void SaveData(GameData data)
+     {
+          data.currentHP = currentHP;
+          if(currentHP <= 0)
+          {
+               data.gameOver = true;
+          }
+     }
+
+     public void LoadData(GameData data)
+     {
+          //currentHP = data.currentHP;
      }
 }

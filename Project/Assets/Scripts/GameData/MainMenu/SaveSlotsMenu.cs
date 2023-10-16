@@ -129,7 +129,6 @@ public class SaveSlotsMenu : Menu
                     {
                          firstSelected = saveSlot.gameObject;
                     }
-                    //saveSlot.saveDate.text = profileData.lastUpdate;
                }
           }
 

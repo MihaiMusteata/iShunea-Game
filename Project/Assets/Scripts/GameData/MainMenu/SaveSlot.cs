@@ -41,11 +41,24 @@ public class SaveSlot : MonoBehaviour
           // there is data for this profileId
           else
           {
-               hasData = true;
-               noDataContent.SetActive(false);
-               hasDataContent.SetActive(true);
-               clearButton.gameObject.SetActive(true);
-               saveDate.text = data.lastUpdate;
+               if (data.gameOver)
+               {
+                    hasData = true;
+                    noDataContent.SetActive(false);
+                    hasDataContent.SetActive(true);
+                    saveSlotButton.interactable = false;
+                    clearButton.gameObject.SetActive(true);
+                    saveDate.text = "Game Over";
+               }
+               else
+               {
+                    hasData = true;
+                    noDataContent.SetActive(false);
+                    hasDataContent.SetActive(true);
+                    clearButton.gameObject.SetActive(true);
+                    saveDate.text = data.lastUpdate;
+               }
+               
           }
      }
 
